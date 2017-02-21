@@ -1,19 +1,24 @@
 <h2 align="center" class="text">Teams</h2>
 
-<div class="row text">
-  <div class="small-1 large-2 columns sidebar"></div>
-  <% 2.times do %>
-    <div class="conference small-2 large-4 columns">
-      <% @leagues[0,@half_leagues_length].each do |league| %>
-        <h3 align="center"><%= league.name %></h3>
-        <% @teams.where(league_id: league.id).each do |team| %>
-          <span align="center">
-            <%= link_to team.name, team_path(team.id) %>
-          </span><br />
+<% while !@leagues.empty? %>
+  <div class="row">
+    <div class="small-1 large-2 columns"></div>
+    <% 2.times do %>
+      <div class="small-5 large-4 columns" align="center">
+        <% if !@leagues.empty? %>
+          <% league = @leagues[0] %>
+          <% @leagues = @leagues[1,(@leagues.length-1)] %>
+          <div class="league">
+            <h3 align="center"><%= league.name %></h3>
+            <% @teams.where(league_id: league.id).each do |team| %>
+              <span align="center">
+                <%= link_to team.name, team_path(team.id) %>
+              </span><br />
+            <% end %>
+          </div>
         <% end %>
-      <% end %>
-      <% @leagues.reverse %>
-    </div>
-  <% end %>
-  <div class="small-1 large-2 columns sidebar"><p></p></div>
-</div>
+      </div>
+    <% end %>
+    <div class="small-1 large-2 columns"><p></p></div>
+  </div>
+<% end %>
